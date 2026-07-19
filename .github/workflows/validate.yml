@@ -1,0 +1,45 @@
+name: Validate plugins
+
+on:
+  pull_request:
+    paths:
+      - "plugins/**"
+      - "scripts/**"
+      - "schema/**"
+      - "owners.json"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - name: Validate manifests (registry rules)
+        run: python3 scripts/validate.py
+
+      - name: Ownership / versioning / shell checks
+        run: python3 scripts/check_pr.py --base base --author "${{ github.event.pull_request.user.login }}"
+
+      - name: Validate manifests (JSON schema)
+        run: |
+          pip install --quiet jsonschema
+          python3 - <<'EOF'
+          import json, sys
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          schema = json.loads(Path("schema/slashpack.schema.json").read_text())
+          validator = Draft202012Validator(schema)
+          failed = False
+          for path in sorted(Path("plugins").glob("*.json")):
+              for error in validator.iter_errors(json.loads(path.read_text())):
+                  print(f"{path.name}: {error.message}")
+                  failed = True
+          sys.exit(1 if failed else 0)
+          EOF

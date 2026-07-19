@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "id": "dev.slashbar.dev-search",
+  "name": "Dev Search",
+  "author": "Slashbar",
+  "version": "1.0.0",
+  "description": "Search the text on developer sites",
+  "icon": "magnifyingglass.circle",
+  "homepage": "https://github.com/harun-yardimci/slashbar-plugins",
+  "commands": [
+    {
+      "id": "mdn",
+      "name": "Search MDN",
+      "kind": "url",
+      "body": "https://developer.mozilla.org/en-US/search?q={q}",
+      "description": "Web platform docs on MDN.",
+      "keywords": ["mdn", "javascript", "css", "html", "docs"]
+    },
+    {
+      "id": "caniuse",
+      "name": "Can I Use…",
+      "kind": "url",
+      "body": "https://caniuse.com/?search={q}",
+      "description": "Browser support tables.",
+      "keywords": ["caniuse", "browser", "support", "css"]
+    },
+    {
+      "id": "stackoverflow",
+      "name": "Search Stack Overflow",
+      "kind": "url",
+      "body": "https://stackoverflow.com/search?q={q}",
+      "description": "Questions and answers.",
+      "keywords": ["stackoverflow", "so", "error", "question"]
+    },
+    {
+      "id": "npm",
+      "name": "Search npm",
+      "kind": "url",
+      "body": "https://www.npmjs.com/search?q={q}",
+      "description": "Node.js packages.",
+      "keywords": ["npm", "node", "package", "javascript"]
+    },
+    {
+      "id": "github-code",
+      "name": "Search GitHub Code",
+      "kind": "url",
+      "body": "https://github.com/search?q={q}&type=code",
+      "description": "Real-world usage examples in open source.",
+      "keywords": ["github", "code", "example", "usage"]
+    }
+  ]
+}

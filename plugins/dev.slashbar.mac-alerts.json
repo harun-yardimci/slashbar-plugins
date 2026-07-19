@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "id": "dev.slashbar.mac-alerts",
+  "name": "Mac Alerts",
+  "author": "Slashbar",
+  "version": "1.0.0",
+  "description": "Turn text into macOS notifications and speech",
+  "icon": "bell.badge",
+  "homepage": "https://github.com/harun-yardimci/slashbar-plugins",
+  "commands": [
+    {
+      "id": "notify",
+      "name": "Show as Notification",
+      "kind": "shell",
+      "body": "t=$(head -c 200); osascript -e 'on run argv' -e 'display notification (item 1 of argv) with title \"Slashbar\"' -e 'end run' \"$t\"",
+      "description": "Pop the text as a macOS notification.",
+      "icon": "bell",
+      "keywords": ["notification", "alert", "bildirim", "uyarı"]
+    },
+    {
+      "id": "speak",
+      "name": "Speak Text",
+      "kind": "shell",
+      "body": "head -c 400 | say",
+      "description": "Read the text aloud with the system voice.",
+      "icon": "speaker.wave.2",
+      "keywords": ["say", "speech", "voice", "sesli", "oku"]
+    }
+  ]
+}

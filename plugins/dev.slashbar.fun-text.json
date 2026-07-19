@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "id": "dev.slashbar.fun-text",
+  "name": "Fun Text",
+  "author": "Slashbar",
+  "version": "1.0.0",
+  "description": "Playful text transforms — AI and local shell mixed",
+  "icon": "face.smiling",
+  "homepage": "https://github.com/harun-yardimci/slashbar-plugins",
+  "commands": [
+    {
+      "id": "eli5",
+      "name": "Explain Like I'm Five",
+      "kind": "ai",
+      "body": "Explain the following to a five-year-old, using simple words and a friendly analogy. Keep it short. Answer in the same language as the input.",
+      "description": "Simplify anything down to child level.",
+      "keywords": ["eli5", "explain", "simple", "basit", "açıkla"]
+    },
+    {
+      "id": "emojify",
+      "name": "Emojify",
+      "kind": "ai",
+      "body": "Rewrite the following text, sprinkling in fitting emojis generously. Keep the meaning intact. Return only the rewritten text.",
+      "description": "Same text, now with emojis.",
+      "keywords": ["emoji", "fun"]
+    },
+    {
+      "id": "code-roast",
+      "name": "Roast My Code",
+      "kind": "ai",
+      "body": "Roast the following code: point out its problems with humor, then end with two genuinely useful improvement suggestions.",
+      "description": "Humorous but useful code review.",
+      "keywords": ["roast", "review", "fun", "code"]
+    },
+    {
+      "id": "rot13",
+      "name": "ROT13",
+      "kind": "shell",
+      "body": "tr 'A-Za-z' 'N-ZA-Mn-za-m'",
+      "description": "Classic letter-rotation cipher (run twice to decode).",
+      "keywords": ["rot13", "cipher", "encode", "decode"]
+    },
+    {
+      "id": "mock-case",
+      "name": "mOcKiNg cAsE",
+      "kind": "shell",
+      "body": "awk 'BEGIN{FS=\"\"}{for(i=1;i<=NF;i++){c=$i; if(i%2)printf \"%s\",tolower(c); else printf \"%s\",toupper(c)} print \"\"}'",
+      "description": "aLtErNaTiNg cApS, meme style.",
+      "keywords": ["mock", "spongebob", "meme", "case"]
+    }
+  ]
+}

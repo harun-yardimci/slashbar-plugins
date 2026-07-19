@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "id": "dev.slashbar.git-helpers",
+  "name": "Git Helpers",
+  "author": "Slashbar",
+  "version": "1.0.0",
+  "description": "Actions for everyday git workflows",
+  "icon": "arrow.triangle.branch",
+  "homepage": "https://github.com/harun-yardimci/slashbar-plugins",
+  "commands": [
+    {
+      "id": "conventional-commit",
+      "name": "Conventional Commit",
+      "kind": "ai",
+      "body": "Rewrite the following change description as a conventional commit message (type(scope): subject, then an optional body). Return only the commit message.",
+      "description": "Turn a change description into a conventional commit message.",
+      "keywords": ["git", "commit", "conventional"]
+    },
+    {
+      "id": "explain-diff",
+      "name": "Explain Diff",
+      "kind": "ai",
+      "body": "Explain what the following diff changes and why it might have been made. Be concise.",
+      "description": "Plain-language summary of a copied diff.",
+      "keywords": ["git", "diff", "review"]
+    },
+    {
+      "id": "pr-search",
+      "name": "Search Pull Requests",
+      "kind": "url",
+      "body": "https://github.com/pulls?q={q}",
+      "description": "Search GitHub pull requests for the text.",
+      "keywords": ["github", "pr", "pull request"]
+    }
+  ]
+}
