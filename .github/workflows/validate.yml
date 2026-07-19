@@ -7,6 +7,7 @@ on:
       - "scripts/**"
       - "schema/**"
       - "owners.json"
+      - "CATALOG.md"
 
 jobs:
   validate:
@@ -43,3 +44,15 @@ jobs:
                   failed = True
           sys.exit(1 if failed else 0)
           EOF
+
+      - name: Test catalog builder
+        run: python3 -m unittest discover -s scripts -p "test_*.py"
+
+      - name: Verify catalog when included in the pull request
+        run: |
+          catalog_was_changed=0
+          cmp -s CATALOG.md base/CATALOG.md || catalog_was_changed=1
+          python3 scripts/build_index.py
+          if [ "$catalog_was_changed" -eq 1 ]; then
+            git diff --exit-code -- CATALOG.md
+          fi

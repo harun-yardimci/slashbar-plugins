@@ -8,6 +8,7 @@ is the human-browsable version of the same data — never edit it by hand.
 import json
 import sys
 from pathlib import Path
+from urllib.parse import quote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 PLUGINS = ROOT / "plugins"
@@ -15,10 +16,27 @@ OUT = ROOT / "public" / "index.json"
 CATALOG = ROOT / "CATALOG.md"
 
 KIND_LABEL = {"ai": "AI prompt", "shell": "Shell", "url": "URL"}
+MARKDOWN_PUNCTUATION = frozenset(r'''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~''')
 
 
 def md_escape(text):
-    return str(text).replace("|", "\\|").replace("\n", " ")
+    one_line = " ".join(str(text).splitlines())
+    return "".join(
+        f"\\{char}" if char in MARKDOWN_PUNCTUATION else char
+        for char in one_line
+    )
+
+
+def md_url(url):
+    value = str(url)
+    if any(ord(char) < 32 or ord(char) == 127 for char in value):
+        raise ValueError("homepage URL must not contain control characters")
+    parsed = urlsplit(value)
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        raise ValueError("homepage URL must be an absolute http(s) URL")
+    # Angle-bracket link destinations safely contain reserved URL characters;
+    # encode everything that could terminate or reshape the Markdown link.
+    return f"<{quote(value, safe='/:#?&=@%+,-._~')}>"
 
 
 def write_catalog(packs):
@@ -33,16 +51,16 @@ def write_catalog(packs):
     for pack in packs:
         kinds = sorted({c.get("kind", "?") for c in pack.get("commands", [])})
         shell_note = " ⚠️ *runs shell commands*" if "shell" in kinds else ""
-        title = f"## {pack['name']} `v{pack['version']}`"
+        title = f"## {md_escape(pack['name'])} `v{pack['version']}`"
         lines += [
             title,
             "",
-            f"{pack['description']} — by **{pack['author']}**"
+            f"{md_escape(pack['description'])} — by **{md_escape(pack['author'])}**"
             f" · kinds: {', '.join(KIND_LABEL.get(k, k) for k in kinds)}{shell_note}",
             "",
         ]
         if pack.get("homepage"):
-            lines += [f"[Homepage]({pack['homepage']}) · `{pack['id']}`", ""]
+            lines += [f"[Homepage]({md_url(pack['homepage'])}) · `{pack['id']}`", ""]
         else:
             lines += [f"`{pack['id']}`", ""]
         lines += ["| Command | Kind | Description |", "|---|---|---|"]

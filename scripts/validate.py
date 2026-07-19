@@ -14,6 +14,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 PLUGINS = ROOT / "plugins"
@@ -78,6 +79,22 @@ def validate_file(path: Path, errors: list):
     check_str(errors, path, pack, "version", VERSION_RE)
     check_str(errors, path, pack, "description", max_len=200)
     check_str(errors, path, pack, "minAppVersion", VERSION_RE, required=False)
+    check_str(errors, path, pack, "homepage", max_len=200, required=False)
+
+    homepage = pack.get("homepage")
+    if isinstance(homepage, str):
+        try:
+            parsed_homepage = urlsplit(homepage)
+        except ValueError:
+            parsed_homepage = None
+        has_control = any(ord(char) < 32 or ord(char) == 127 for char in homepage)
+        if (
+            has_control
+            or parsed_homepage is None
+            or parsed_homepage.scheme not in {"http", "https"}
+            or not parsed_homepage.hostname
+        ):
+            fail(errors, path, "'homepage' must be an absolute http(s) URL")
 
     if pack.get("id") and path.stem != pack["id"]:
         fail(errors, path, f"filename must be '{pack['id']}.json'")

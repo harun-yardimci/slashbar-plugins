@@ -18,7 +18,12 @@
     "version": { "type": "string", "pattern": "^\\d+(\\.\\d+){0,2}$" },
     "description": { "type": "string", "minLength": 1, "maxLength": 200 },
     "icon": { "type": "string", "maxLength": 80 },
-    "homepage": { "type": "string", "format": "uri", "maxLength": 200 },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "maxLength": 200
+    },
     "minAppVersion": { "type": "string", "pattern": "^\\d+(\\.\\d+){0,2}$" },
     "commands": {
       "type": "array",

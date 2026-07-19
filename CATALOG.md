@@ -8,49 +8,49 @@
 
 Search the text on developer sites — by **Slashbar** · kinds: URL
 
-[Homepage](https://github.com/harun-yardimci/slashbar-plugins) · `dev.slashbar.dev-search`
+[Homepage](<https://github.com/harun-yardimci/slashbar-plugins>) · `dev.slashbar.dev-search`
 
 | Command | Kind | Description |
 |---|---|---|
-| Search MDN | URL | Web platform docs on MDN. |
-| Can I Use… | URL | Browser support tables. |
-| Search Stack Overflow | URL | Questions and answers. |
-| Search npm | URL | Node.js packages. |
-| Search GitHub Code | URL | Real-world usage examples in open source. |
+| Search MDN | URL | Web platform docs on MDN\. |
+| Can I Use… | URL | Browser support tables\. |
+| Search Stack Overflow | URL | Questions and answers\. |
+| Search npm | URL | Node\.js packages\. |
+| Search GitHub Code | URL | Real\-world usage examples in open source\. |
 
 ## Fun Text `v1.0.0`
 
 Playful text transforms — AI and local shell mixed — by **Slashbar** · kinds: AI prompt, Shell ⚠️ *runs shell commands*
 
-[Homepage](https://github.com/harun-yardimci/slashbar-plugins) · `dev.slashbar.fun-text`
+[Homepage](<https://github.com/harun-yardimci/slashbar-plugins>) · `dev.slashbar.fun-text`
 
 | Command | Kind | Description |
 |---|---|---|
-| Explain Like I'm Five | AI prompt | Simplify anything down to child level. |
-| Emojify | AI prompt | Same text, now with emojis. |
-| Roast My Code | AI prompt | Humorous but useful code review. |
-| ROT13 | Shell | Classic letter-rotation cipher (run twice to decode). |
-| mOcKiNg cAsE | Shell | aLtErNaTiNg cApS, meme style. |
+| Explain Like I\'m Five | AI prompt | Simplify anything down to child level\. |
+| Emojify | AI prompt | Same text\, now with emojis\. |
+| Roast My Code | AI prompt | Humorous but useful code review\. |
+| ROT13 | Shell | Classic letter\-rotation cipher \(run twice to decode\)\. |
+| mOcKiNg cAsE | Shell | aLtErNaTiNg cApS\, meme style\. |
 
 ## Git Helpers `v1.0.0`
 
 Actions for everyday git workflows — by **Slashbar** · kinds: AI prompt, URL
 
-[Homepage](https://github.com/harun-yardimci/slashbar-plugins) · `dev.slashbar.git-helpers`
+[Homepage](<https://github.com/harun-yardimci/slashbar-plugins>) · `dev.slashbar.git-helpers`
 
 | Command | Kind | Description |
 |---|---|---|
-| Conventional Commit | AI prompt | Turn a change description into a conventional commit message. |
-| Explain Diff | AI prompt | Plain-language summary of a copied diff. |
-| Search Pull Requests | URL | Search GitHub pull requests for the text. |
+| Conventional Commit | AI prompt | Turn a change description into a conventional commit message\. |
+| Explain Diff | AI prompt | Plain\-language summary of a copied diff\. |
+| Search Pull Requests | URL | Search GitHub pull requests for the text\. |
 
 ## Mac Alerts `v1.0.0`
 
 Turn text into macOS notifications and speech — by **Slashbar** · kinds: Shell ⚠️ *runs shell commands*
 
-[Homepage](https://github.com/harun-yardimci/slashbar-plugins) · `dev.slashbar.mac-alerts`
+[Homepage](<https://github.com/harun-yardimci/slashbar-plugins>) · `dev.slashbar.mac-alerts`
 
 | Command | Kind | Description |
 |---|---|---|
-| Show as Notification | Shell | Pop the text as a macOS notification. |
-| Speak Text | Shell | Read the text aloud with the system voice. |
+| Show as Notification | Shell | Pop the text as a macOS notification\. |
+| Speak Text | Shell | Read the text aloud with the system voice\. |
