@@ -25,11 +25,11 @@ jobs:
       # The app fetches the index over raw.githubusercontent.com, so committing
       # it to main is all the "publishing" we need. Skips cleanly when nothing
       # changed. (Move to GitHub Pages later if a browsable catalog is wanted.)
-      - name: Commit index.json
+      - name: Commit index.json and CATALOG.md
         run: |
           cp public/index.json index.json
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.json
-          git diff --cached --quiet || git commit -m "Rebuild index.json"
+          git add index.json CATALOG.md
+          git diff --cached --quiet || git commit -m "Rebuild index.json and CATALOG.md"
           git push

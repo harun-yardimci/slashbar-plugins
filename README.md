@@ -1,6 +1,7 @@
 # Slashbar Plugin Registry
 
-Community action packs for [Slashbar](https://github.com/slashbar/slashbar). A plugin
+Community action packs for [Slashbar](https://slashbar.app). **Browse the
+[Plugin Catalog](CATALOG.md)** — regenerated automatically on every merge. A plugin
 is a single JSON manifest (a **SlashPack**) containing metadata and a list of commands.
 Slashbar fetches `index.json` from this repo and lets users browse and install packs
 from Settings → Plugins.
