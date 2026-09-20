@@ -31,8 +31,21 @@ DANGEROUS = [
     (re.compile(r"curl[^|;&]*\|\s*(ba)?sh"), "curl | sh"),
     (re.compile(r"wget[^|;&]*\|\s*(ba)?sh"), "wget | sh"),
     (re.compile(r"\bmkfs\b|\bdiskutil\s+erase"), "disk formatting"),
-    (re.compile(r"\bdd\s+if="), "raw disk write (dd)"),
-    (re.compile(r">\s*/dev/"), "writing to device files"),
+    # `dd` is rejected outright rather than by operand. Matching `if=` alone
+    # left `dd of=/dev/disk0` — the actually destructive direction — passing,
+    # and any operand list can be reordered, padded with `bs=`, or preceded by
+    # a `VAR=1` assignment to slip past a narrower rule. A word match cannot be
+    # sidestepped that way, and no plugin has a real use for dd: `head -c` and
+    # `tail -c` cover every byte-slicing case a text transform needs.
+    # Known cost, accepted: a body whose sed/tr expression literally contains
+    # "dd" (`sed 's/dd/%d/'`) is rejected too. An auto-reject gate for
+    # third-party submissions should fail toward refusing, and human review
+    # happens on top of this list.
+    (re.compile(r"\bdd\b"), "dd — no plugin needs it; use head -c / tail -c"),
+    # /dev/null and the standard streams are the ordinary way to discard or
+    # redirect output — `2>/dev/null` is in almost every shell one-liner. Only
+    # a write to a REAL device (disks, tty, random) is worth rejecting.
+    (re.compile(r">\s*/dev/(?!null\b|stdout\b|stderr\b|fd/)"), "writing to device files"),
     (re.compile(r"\bchmod\s+(-\w+\s+)*777"), "chmod 777"),
     (re.compile(r"\b(launchctl|systemsetup|csrutil|spctl)\b"), "system configuration"),
     (re.compile(r"\bosascript\b.*(System Events|keystroke)"), "UI scripting"),
@@ -40,6 +53,19 @@ DANGEROUS = [
     (re.compile(r"\bdefaults\s+write\s+/Library"), "global defaults write"),
     (re.compile(r"~/(\.ssh|\.aws|\.gnupg|Library/Keychains)"), "credential paths"),
 ]
+
+
+def dangerous_label(body):
+    """The first auto-reject rule a shell body trips, or None if it is clean.
+
+    Split out from the manifest walk so the rules can be exercised on their
+    own — a gap in this list is a supply-chain hole, and it should be provable
+    against a one-line body rather than only through a whole manifest.
+    """
+    for pattern, label in DANGEROUS:
+        if pattern.search(body):
+            return label
+    return None
 
 
 def fail(errors, path, msg):
@@ -123,9 +149,9 @@ def validate_file(path: Path, errors: list):
             fail(errors, path, f"commands[{i}].kind must be one of {sorted(KINDS)}")
         body = cmd.get("body") or ""
         if kind == "shell":
-            for pattern, label in DANGEROUS:
-                if pattern.search(body):
-                    fail(errors, path, f"command '{cid}': shell body rejected ({label})")
+            label = dangerous_label(body)
+            if label:
+                fail(errors, path, f"command '{cid}': shell body rejected ({label})")
         if kind == "url" and not body.startswith(("https://", "http://")):
             fail(errors, path, f"command '{cid}': url body must start with http(s)://")
     return pack
