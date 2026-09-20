@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "id": "dev.slashbar.net-tools",
+  "name": "Net Tools",
+  "author": "Slashbar",
+  "version": "1.0.0",
+  "description": "Ports, sockets and the processes holding them",
+  "icon": "network",
+  "homepage": "https://github.com/harun-yardimci/slashbar-plugins",
+  "commands": [
+    {
+      "id": "who-has-port",
+      "name": "Who Has This Port?",
+      "kind": "shell",
+      "body": "p=$(tr -cd '0-9' | head -c 5); [ -n \"$p\" ] || { echo 'Type a port number first.'; exit 0; }; out=$(/usr/sbin/lsof -nP +c 0 -iTCP:$p -sTCP:LISTEN 2>/dev/null); [ -n \"$out\" ] && echo \"$out\" || echo \"Nothing is listening on $p.\"",
+      "description": "Type a port number to see which process is listening on it.",
+      "icon": "magnifyingglass.circle",
+      "keywords": ["port", "who", "listen", "lsof", "liman", "kim"]
+    },
+    {
+      "id": "dev-ports",
+      "name": "Common Dev Ports",
+      "kind": "shell",
+      "body": "/usr/sbin/lsof -nP +c 0 -iTCP -sTCP:LISTEN 2>/dev/null | awk 'NR==1 || $9 ~ /:(300[0-9]|4200|500[0-9]|8000|8080|8081|8787|900[0-9])$/'",
+      "description": "Just the ports dev servers usually grab — 3000, 5173, 8080 and friends.",
+      "icon": "hammer",
+      "keywords": ["dev", "server", "3000", "8080", "vite", "next", "port"]
+    },
+    {
+      "id": "listening-summary",
+      "name": "Listening Summary",
+      "kind": "shell",
+      "body": "/usr/sbin/lsof -nP +c 0 -Fpcn -iTCP -sTCP:LISTEN 2>/dev/null | awk '/^c/{c=substr($0,2)} /^n/{n=substr($0,2); sub(/.*:/,\"\",n); print c, n}' | sort -u -k2,2n | awk '{printf \"%-24s %s\\n\", $1, $2}'",
+      "description": "One tidy line per listening process and port.",
+      "icon": "list.bullet",
+      "keywords": ["ports", "listening", "summary", "özet", "liste"]
+    },
+    {
+      "id": "established",
+      "name": "Established Connections",
+      "kind": "shell",
+      "body": "/usr/sbin/lsof -nP +c 0 -iTCP -sTCP:ESTABLISHED 2>/dev/null | head -60",
+      "description": "What is actually talking to the network right now.",
+      "icon": "arrow.left.arrow.right",
+      "keywords": ["connections", "established", "network", "bağlantı", "ağ"]
+    },
+    {
+      "id": "port-check",
+      "name": "Check Remote Port",
+      "kind": "shell",
+      "body": "read -r line; h=$(echo \"$line\" | awk '{print $1}' | sed 's|.*://||;s|/.*||;s|:.*||'); p=$(echo \"$line\" | grep -oE '[0-9]+$'); p=${p:-443}; [ -n \"$h\" ] || { echo 'Type a host, optionally with a port: example.com 443'; exit 0; }; if nc -z -G 3 \"$h\" \"$p\" 2>/dev/null; then echo \"open   $h:$p\"; else echo \"closed $h:$p\"; fi",
+      "description": "Type \"example.com 443\" to see whether that port answers.",
+      "icon": "dot.radiowaves.left.and.right",
+      "keywords": ["port", "check", "remote", "nc", "reachable", "erişim"]
+    },
+    {
+      "id": "my-ips",
+      "name": "My IP Addresses",
+      "kind": "shell",
+      "body": "echo 'Local:'; ipconfig getifaddr en0 2>/dev/null; ipconfig getifaddr en1 2>/dev/null; echo 'Public:'; curl -s --max-time 4 https://api.ipify.org; echo",
+      "description": "Local interface addresses and the public one.",
+      "icon": "globe",
+      "keywords": ["ip", "address", "public", "local", "adres"]
+    }
+  ]
+}
